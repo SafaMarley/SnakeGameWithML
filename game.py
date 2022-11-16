@@ -117,7 +117,8 @@ class SnakeGameAI:
                 pygame.draw.rect(self.display, COLOR_SNAKE_IN, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
                 pygame.draw.rect(self.display, COLOR_SNAKE_OUT, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
             
-        pygame.draw.rect(self.display, COLOR_FOOD, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        circle_radius=BLOCK_SIZE//2
+        pygame.draw.circle(self.display, COLOR_FOOD, Point(self.food.x + circle_radius, self.food.y + circle_radius), circle_radius)
 
         i = 0
         while i <= ((self.height / 20)):
