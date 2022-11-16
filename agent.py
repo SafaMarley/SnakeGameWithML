@@ -120,6 +120,7 @@ def train():
         if done:
             game.reset()
             agent.n_games += 1
+            game.iteration = agent.n_games
             agent.train_long_memory()
 
             if score > record:

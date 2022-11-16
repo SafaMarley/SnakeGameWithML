@@ -34,6 +34,7 @@ PUNISHMENT = -10
 
 class SnakeGameAI:
     best_score = 0
+    iteration = 0
 
     def __init__(self, width=640, height=480):
         self.width = width
@@ -142,12 +143,14 @@ class SnakeGameAI:
         pygame.display.flip()
         
     def _update_text(self):
-        text = font.render("Best Score: " + str(self.best_score), True, COLOR_TEXT)
+        text = font.render("Iteration: " + str(self.iteration), True, COLOR_TEXT)
         self.display.blit(text, [0, 0*BLOCK_SIZE])
-        text = font.render("Current Score: " + str(self.food_score), True, COLOR_TEXT)
+        text = font.render("Best Score: " + str(self.best_score), True, COLOR_TEXT)
         self.display.blit(text, [0, 1*BLOCK_SIZE])
-        text = font.render("Movement Count: " + str(self.movement_count), True, COLOR_TEXT)
+        text = font.render("Current Score: " + str(self.food_score), True, COLOR_TEXT)
         self.display.blit(text, [0, 2*BLOCK_SIZE])
+        text = font.render("Movement Count: " + str(self.movement_count), True, COLOR_TEXT)
+        self.display.blit(text, [0, 3*BLOCK_SIZE])
 
     def _move(self, action):
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
