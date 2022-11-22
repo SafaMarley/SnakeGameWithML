@@ -105,6 +105,8 @@ class SnakeGameAI:
         if pt in self.snake[1:]:
             return True
         
+        # Add Path finding here!
+
         return False
         
     def _update_ui(self):
