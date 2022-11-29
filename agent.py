@@ -1,8 +1,9 @@
 import torch
 import random
 import numpy as np
+
 from collections import deque
-from game import SnakeGameAI, Direction, Point, BLOCK_SIZE
+from game import SnakeGameAI, Direction, Grid, GRID_SIZE
 from model import Linear_QNet, QTrainer
 from graph import plot
 
@@ -23,10 +24,10 @@ class Agent:
 
     def get_state(self, game):
         head = game.snake[0]
-        point_l = Point(head.x - BLOCK_SIZE, head.y)
-        point_r = Point(head.x + BLOCK_SIZE, head.y)
-        point_u = Point(head.x, head.y - BLOCK_SIZE)
-        point_d = Point(head.x, head.y + BLOCK_SIZE)
+        point_l = Grid(head.x - GRID_SIZE, head.y)
+        point_r = Grid(head.x + GRID_SIZE, head.y)
+        point_u = Grid(head.x, head.y - GRID_SIZE)
+        point_d = Grid(head.x, head.y + GRID_SIZE)
         
         dir_l = game.direction == Direction.LEFT
         dir_r = game.direction == Direction.RIGHT
