@@ -9,7 +9,7 @@ from graph import plot
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
-LR = 0.001
+LEARNING_RATE = 0.001
 
 class Agent:
 
@@ -19,45 +19,45 @@ class Agent:
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
         self.model = Linear_QNet(11, 256, 3)    #11 and 3 is fixed values but middle one can be changed
-        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
+        self.trainer = QTrainer(self.model, lr=LEARNING_RATE, gamma=self.gamma)
 
 
     def get_state(self, game):
         head = game.snake[0]
-        point_l = Grid(head.x - GRID_SIZE, head.y)
-        point_r = Grid(head.x + GRID_SIZE, head.y)
-        point_u = Grid(head.x, head.y - GRID_SIZE)
-        point_d = Grid(head.x, head.y + GRID_SIZE)
+        right_point = Grid(head.x + GRID_SIZE, head.y)
+        left_point = Grid(head.x - GRID_SIZE, head.y)
+        up_point = Grid(head.x, head.y - GRID_SIZE)
+        down_point = Grid(head.x, head.y + GRID_SIZE)
         
-        dir_l = game.direction == Direction.LEFT
-        dir_r = game.direction == Direction.RIGHT
-        dir_u = game.direction == Direction.UP
-        dir_d = game.direction == Direction.DOWN
+        right_direction = game.direction == Direction.RIGHT
+        left_direction = game.direction == Direction.LEFT
+        up_direction = game.direction == Direction.UP
+        down_direction = game.direction == Direction.DOWN
 
         state = [
             # Danger straight
-            (dir_r and game.is_collision(point_r)) or 
-            (dir_l and game.is_collision(point_l)) or 
-            (dir_u and game.is_collision(point_u)) or 
-            (dir_d and game.is_collision(point_d)),
+            (right_direction and game.is_not_safe(right_point)) or 
+            (left_direction and game.is_not_safe(left_point)) or 
+            (up_direction and game.is_not_safe(up_point)) or 
+            (down_direction and game.is_not_safe(down_point)),
 
-            # Danger right
-            (dir_u and game.is_collision(point_r)) or 
-            (dir_d and game.is_collision(point_l)) or 
-            (dir_l and game.is_collision(point_u)) or 
-            (dir_r and game.is_collision(point_d)),
+            # Danger right_direction
+            (up_direction and game.is_not_safe(right_point)) or 
+            (down_direction and game.is_not_safe(left_point)) or 
+            (left_direction and game.is_not_safe(up_point)) or 
+            (right_direction and game.is_not_safe(down_point)),
 
-            # Danger left
-            (dir_d and game.is_collision(point_r)) or 
-            (dir_u and game.is_collision(point_l)) or 
-            (dir_r and game.is_collision(point_u)) or 
-            (dir_l and game.is_collision(point_d)),
+            # Danger left_direction
+            (down_direction and game.is_not_safe(right_point)) or 
+            (up_direction and game.is_not_safe(left_point)) or 
+            (right_direction and game.is_not_safe(up_point)) or 
+            (left_direction and game.is_not_safe(down_point)),
             
             # Move direction
-            dir_l,
-            dir_r,
-            dir_u,
-            dir_d,
+            left_direction,
+            right_direction,
+            up_direction,
+            down_direction,
             
             # Food location 
             game.food.x < game.head.x,

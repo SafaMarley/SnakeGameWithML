@@ -3,6 +3,7 @@ from IPython import display
 
 plt.ion()
 
+#Creates a window to print the graph of the scores model have made since the session started, best score so far and the mean value of the scores.
 def plot(scores, mean_scores, best_scores):
     display.clear_output(wait=True)
     display.display(plt.gcf())

@@ -80,6 +80,64 @@ class SnakeGameAI:
         
         return reinforcement_score, game_over, self.food_score
     
+    def is_not_safe(self, pt=None):
+        if pt is None:
+            pt = self.head
+
+        if (self.is_collision()):
+            return True
+        
+        """ if (self.iteration > 100):
+            VisitedGridCells = []
+            return self.is_not_safe_recursive(pt, VisitedGridCells) """
+
+        return False
+
+    def is_not_safe_recursive(self, pt, VisitedGridCells):
+
+        pt1 = Grid(pt.x + GRID_SIZE, pt.y)
+        pt2 = Grid(pt.x - GRID_SIZE, pt.y)
+        pt3 = Grid(pt.x, pt.y + GRID_SIZE)
+        pt4 = Grid(pt.x, pt.y - GRID_SIZE)
+
+        if (not self.is_collision(pt1)):
+            if (pt1 == self.food):
+                return False
+            if (pt1 not in VisitedGridCells):
+                VisitedGridCells.append(pt1)
+                self.is_not_safe_recursive(pt1, VisitedGridCells)
+        else:
+            return True
+
+        if (not self.is_collision(pt2)):
+            if (pt2 == self.food):
+                return False
+            if (pt2 not in VisitedGridCells):
+                VisitedGridCells.append(pt2)
+                self.is_not_safe_recursive(pt2, VisitedGridCells)
+        else:
+            return True
+
+        if (not self.is_collision(pt3)):
+            if (pt3 == self.food):
+                return False
+            if (pt3 not in VisitedGridCells):
+                VisitedGridCells.append(pt3)
+                self.is_not_safe_recursive(pt3, VisitedGridCells)
+        else:
+            return True
+
+        if (not self.is_collision(pt4)):
+            if (pt4 == self.food):
+                return False
+            if (pt4 not in VisitedGridCells):
+                VisitedGridCells.append(pt4)
+                self.is_not_safe_recursive(pt4, VisitedGridCells)
+        else:
+            return True
+
+        return False
+        
     def is_collision(self, pt=None):
         if pt is None:
             pt = self.head
@@ -89,11 +147,9 @@ class SnakeGameAI:
 
         if pt in self.snake[1:]:        #In case of snake collides with itself.
             return True
-        
-        # TODO:Add Path finding here!
 
         return False
-        
+
     def _update_ui(self):
         self.display.fill(color.BG)
         
@@ -145,9 +201,9 @@ class SnakeGameAI:
 
         if np.array_equal(action, [1, 0, 0]):   #Move straight command
             new_direction = clock_wise[index]
-        elif np.array_equal(action, [0, 1, 0]):     #Turn right command
+        elif np.array_equal(action, [0, 1, 0]):     #Turn right_direction command
             new_direction = clock_wise[(index + 1) % 4]
-        else:       #Turn left command
+        else:       #Turn left_direction command
             new_direction = clock_wise[(index - 1) % 4]
 
         self.direction = new_direction

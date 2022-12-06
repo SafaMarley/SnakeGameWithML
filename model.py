@@ -1,17 +1,17 @@
 import torch
-import torch.nn as nn
+import torch.nn as neural_network
 import torch.optim as optim
-import torch.nn.functional as F
+import torch.nn.functional as function
 import os
 
-class Linear_QNet(nn.Module):
+class Linear_QNet(neural_network.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super().__init__()
-        self.linear1 = nn.Linear(input_size, hidden_size)
-        self.linear2 = nn.Linear(hidden_size, output_size)
+        self.linear1 = neural_network.Linear(input_size, hidden_size)
+        self.linear2 = neural_network.Linear(hidden_size, output_size)
 
     def forward(self, x):
-        x = F.relu(self.linear1(x))
+        x = function.relu(self.linear1(x))
         x = self.linear2(x)
         return x
 
@@ -30,7 +30,7 @@ class QTrainer:
         self.gamma = gamma
         self.model = model
         self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
-        self.criterion = nn.MSELoss()
+        self.criterion = neural_network.MSELoss()
 
     def train_step(self, state, action, reinforcement_score, next_state, done):
         state = torch.tensor(state, dtype=torch.float)
