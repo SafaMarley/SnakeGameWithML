@@ -21,7 +21,7 @@ class SnakeGameAI:
     best_score = 0      #UI element.
     iteration = 0       #UI element.
 
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=200, height=200):
         self.width = width      #Size of the map.
         self.height = height
         # init display
@@ -62,7 +62,7 @@ class SnakeGameAI:
         self.snake.insert(0, self.head)
         
         game_over = False
-        if self.is_collision() or self.movement_count > 100*len(self.snake):        #In the event of snake dies.
+        if self.is_collision(self.head) or self.movement_count > 100*len(self.snake):        #In the event of snake dies.
             game_over = True
             reinforcement_score = PUNISHMENT
             return reinforcement_score, game_over, self.food_score
@@ -80,16 +80,12 @@ class SnakeGameAI:
         
         return reinforcement_score, game_over, self.food_score
     
-    def is_not_safe(self, pt=None):
-        if pt is None:
-            pt = self.head
-
-        if (self.is_collision()):
+    def is_not_safe(self, pt):
+        if (self.is_collision(pt)):
             return True
-        
-        """ if (self.iteration > 100):
-            VisitedGridCells = []
-            return self.is_not_safe_recursive(pt, VisitedGridCells) """
+
+        #VisitedGridCells = []
+        #return self.is_not_safe_recursive(pt, VisitedGridCells)
 
         return False
 
@@ -138,10 +134,7 @@ class SnakeGameAI:
 
         return False
         
-    def is_collision(self, pt=None):
-        if pt is None:
-            pt = self.head
-            
+    def is_collision(self, pt): 
         if pt.x > self.width - (BOUNDARY_SIZE) or pt.x < BOUNDARY_SIZE or pt.y > self.height - (BOUNDARY_SIZE) or pt.y < BOUNDARY_SIZE:     #In case of snake collides with boundaries.
             return True
 

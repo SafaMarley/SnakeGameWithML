@@ -1,7 +1,7 @@
 import torch
 import torch.nn as neural_network
 import torch.optim as optim
-import torch.nn.functional as function
+import torch.nn.functional as torch_function
 import os
 
 class Linear_QNet(neural_network.Module):
@@ -11,7 +11,7 @@ class Linear_QNet(neural_network.Module):
         self.linear2 = neural_network.Linear(hidden_size, output_size)
 
     def forward(self, x):
-        x = function.relu(self.linear1(x))
+        x = torch_function.relu(self.linear1(x))
         x = self.linear2(x)
         return x
 
