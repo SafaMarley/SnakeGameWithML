@@ -1,5 +1,10 @@
 This project is made for CSE4088: Introduction to Machine Learning Course\
 ​\
+The result of the test run can be seen below.\
+\
+![alt text](https://https://github.com/SafaMarley/SnakeGameWithML/.RepoRelated/MLSnakeGraph.png?raw=true)
+\
+\
 Execute the project from main.py, make sure that you have activated the pygame environment before launching the game.\
 You can adjust the speed of the game via the SPEED constant on game.py file.\
 ​\
